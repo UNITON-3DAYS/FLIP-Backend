@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/grading-records")
+@RequestMapping("/api/grading-records")
 class GradingRecordController(
     private val gradingRecordService: GradingRecordService
 ) {
