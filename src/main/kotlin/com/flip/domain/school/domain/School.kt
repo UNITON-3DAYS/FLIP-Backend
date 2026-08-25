@@ -17,8 +17,4 @@ class School(
 
     @Column(nullable = false)
     var name: String,
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    var schoolLevel: SchoolLevel
 ) : BaseEntity()
