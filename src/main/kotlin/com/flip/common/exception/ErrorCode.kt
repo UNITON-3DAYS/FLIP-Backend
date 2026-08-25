@@ -17,6 +17,10 @@ enum class ErrorCode(
     MISSING_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "필수 파라미터가 누락되었습니다."),
     FILE_SIZE_EXCEEDED(HttpStatus.PAYLOAD_TOO_LARGE, "업로드 가능한 파일 크기를 초과했습니다."),
 
+    // School
+    SCHOOL_NOT_FOUND(HttpStatus.NOT_FOUND, "학교 정보를 찾을 수 없습니다."),
+    SCHOOL_HAS_STUDENTS(HttpStatus.CONFLICT, "소속 학생이 있어 학교를 삭제할 수 없습니다."),
+
     // Student
     STUDENT_NOT_FOUND(HttpStatus.NOT_FOUND, "학생 정보를 찾을 수 없습니다."),
 
