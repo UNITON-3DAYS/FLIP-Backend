@@ -8,11 +8,11 @@ import com.flip.domain.grading.presentation.GradingRecordDetailResponse
 import com.flip.domain.grading.presentation.GradingRecordListResponse
 import com.flip.domain.grading.presentation.GradingRecordStatusResponse
 import com.flip.domain.grading.presentation.GradingSessionResponse
-import com.flip.domain.grading.presentation.UploadGradingImageRequest
 import com.flip.domain.student.application.StudentReader
 import com.flip.domain.worksheet.application.WorksheetCreator
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 import java.time.DateTimeException
 import java.time.LocalDate
 
@@ -24,9 +24,8 @@ class GradingRecordService(
     private val gradingRecordCreator: GradingRecordCreator,
     private val gradingRecordReader: GradingRecordReader,
     private val gradingRecordValidator: GradingRecordValidator,
-    private val gradingImageCreator: GradingImageCreator,
+    private val gradingImageProcessor: GradingImageProcessor,
     private val gradingImageReader: GradingImageReader,
-    private val gradingResultRecorder: GradingResultRecorder,
     private val gradingResultReader: GradingResultReader
 ) {
     @Transactional
@@ -38,12 +37,11 @@ class GradingRecordService(
     }
 
     @Transactional
-    fun uploadImage(studentId: Long, gradingRecordId: Long, request: UploadGradingImageRequest): GradingImageResponse {
+    fun uploadImage(studentId: Long, gradingRecordId: Long, file: MultipartFile): GradingImageResponse {
         val gradingRecord = gradingRecordReader.getById(gradingRecordId)
         gradingRecordValidator.validateOwner(gradingRecord, studentId)
         gradingRecordValidator.validateInProgress(gradingRecord)
-        val gradingImage = gradingImageCreator.create(gradingRecord, request.imageUrl)
-        gradingResultRecorder.record(gradingRecord, gradingRecord.worksheet, request.imageUrl)
+        val gradingImage = gradingImageProcessor.process(gradingRecord, file)
         return GradingImageResponse.from(gradingImage)
     }
 
