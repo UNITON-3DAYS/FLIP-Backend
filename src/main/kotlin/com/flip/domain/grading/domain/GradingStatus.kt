@@ -1,5 +1,5 @@
 package com.flip.domain.grading.domain
 
 enum class GradingStatus {
-    IN_PROGRESS, COMPLETED
+    IN_PROGRESS, GRADING, COMPLETED
 }

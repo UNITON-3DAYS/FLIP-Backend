@@ -1,6 +1,7 @@
 package com.flip.domain.grading.application
 
 import com.flip.domain.grading.presentation.CreateGradingSessionRequest
+import com.flip.domain.grading.presentation.GradingRecordDetailResponse
 import com.flip.domain.grading.presentation.GradingRecordStatusResponse
 import com.flip.domain.grading.presentation.GradingSessionResponse
 import com.flip.domain.grading.presentation.UploadGradingImageRequest
@@ -17,7 +18,8 @@ class GradingRecordService(
     private val gradingRecordCreator: GradingRecordCreator,
     private val gradingRecordReader: GradingRecordReader,
     private val gradingRecordValidator: GradingRecordValidator,
-    private val gradingImageCreator: GradingImageCreator
+    private val gradingImageCreator: GradingImageCreator,
+    private val wrongAnswerReader: WrongAnswerReader
 ) {
     @Transactional
     fun createSession(studentId: Long, request: CreateGradingSessionRequest): GradingSessionResponse {
@@ -36,11 +38,11 @@ class GradingRecordService(
     }
 
     @Transactional
-    fun completeSession(studentId: Long, gradingRecordId: Long): GradingSessionResponse {
+    fun endSession(studentId: Long, gradingRecordId: Long): GradingSessionResponse {
         val gradingRecord = gradingRecordReader.getById(gradingRecordId)
         gradingRecordValidator.validateOwner(gradingRecord, studentId)
         gradingRecordValidator.validateInProgress(gradingRecord)
-        gradingRecord.complete()
+        gradingRecord.startGrading()
         return GradingSessionResponse.from(gradingRecord)
     }
 
@@ -48,5 +50,12 @@ class GradingRecordService(
         val gradingRecord = gradingRecordReader.getById(gradingRecordId)
         gradingRecordValidator.validateOwner(gradingRecord, studentId)
         return GradingRecordStatusResponse.from(gradingRecord)
+    }
+
+    fun getDetail(studentId: Long, gradingRecordId: Long): GradingRecordDetailResponse {
+        val gradingRecord = gradingRecordReader.getById(gradingRecordId)
+        gradingRecordValidator.validateOwner(gradingRecord, studentId)
+        val wrongAnswers = wrongAnswerReader.findAllByGradingRecordId(gradingRecordId)
+        return GradingRecordDetailResponse.of(gradingRecord, wrongAnswers)
     }
 }

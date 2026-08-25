@@ -17,7 +17,7 @@ class GradingRecordValidator {
 
     fun validateInProgress(gradingRecord: GradingRecord) {
         if (gradingRecord.status != GradingStatus.IN_PROGRESS) {
-            throw CustomException(ErrorCode.GRADING_RECORD_ALREADY_COMPLETED)
+            throw CustomException(ErrorCode.GRADING_RECORD_NOT_IN_PROGRESS)
         }
     }
 }

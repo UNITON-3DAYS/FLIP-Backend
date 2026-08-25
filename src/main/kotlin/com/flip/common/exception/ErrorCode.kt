@@ -25,5 +25,5 @@ enum class ErrorCode(
     // GradingRecord
     GRADING_RECORD_NOT_FOUND(HttpStatus.NOT_FOUND, "채점 기록을 찾을 수 없습니다."),
     NOT_GRADING_RECORD_OWNER(HttpStatus.FORBIDDEN, "해당 채점 기록의 학생이 아닙니다."),
-    GRADING_RECORD_ALREADY_COMPLETED(HttpStatus.CONFLICT, "이미 종료된 채점 기록입니다.");
+    GRADING_RECORD_NOT_IN_PROGRESS(HttpStatus.CONFLICT, "이미 촬영이 종료된 채점 기록입니다.");
 }

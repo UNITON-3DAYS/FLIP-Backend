@@ -38,11 +38,11 @@ class GradingRecordController(
     }
 
     @PatchMapping("/{gradingRecordId}")
-    fun completeSession(
+    fun endSession(
         @RequestHeader("studentId") studentId: Long,
         @PathVariable gradingRecordId: Long
     ): ResponseEntity<GradingSessionResponse> {
-        val response = gradingRecordService.completeSession(studentId, gradingRecordId)
+        val response = gradingRecordService.endSession(studentId, gradingRecordId)
         return ResponseEntity(response, HttpStatus.OK)
     }
 
@@ -52,6 +52,15 @@ class GradingRecordController(
         @PathVariable gradingRecordId: Long
     ): ResponseEntity<GradingRecordStatusResponse> {
         val response = gradingRecordService.getStatus(studentId, gradingRecordId)
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
+    @GetMapping("/{gradingRecordId}")
+    fun getDetail(
+        @RequestHeader("studentId") studentId: Long,
+        @PathVariable gradingRecordId: Long
+    ): ResponseEntity<GradingRecordDetailResponse> {
+        val response = gradingRecordService.getDetail(studentId, gradingRecordId)
         return ResponseEntity(response, HttpStatus.OK)
     }
 }

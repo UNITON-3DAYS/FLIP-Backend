@@ -44,6 +44,10 @@ class GradingRecord(
         if (isCorrect) this.correctCount++
     }
 
+    fun startGrading() {
+        this.status = GradingStatus.GRADING
+    }
+
     fun complete() {
         this.status = GradingStatus.COMPLETED
     }
