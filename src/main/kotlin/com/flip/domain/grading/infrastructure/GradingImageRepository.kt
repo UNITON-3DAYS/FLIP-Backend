@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface GradingImageRepository : JpaRepository<GradingImage, Long> {
     fun existsByIdAndGradingRecordId(id: Long, gradingRecordId: Long): Boolean
+
+    fun deleteAllByGradingRecordIdIn(gradingRecordIds: List<Long>)
 }

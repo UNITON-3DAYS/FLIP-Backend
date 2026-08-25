@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional
 class StudentService(
     private val studentReader: StudentReader,
     private val studentCreator: StudentCreator,
-    private val studentValidator: StudentValidator,
     private val studentDeleter: StudentDeleter,
     private val schoolReader: SchoolReader
 ) {
@@ -52,7 +51,6 @@ class StudentService(
     @Transactional
     fun delete(studentId: Long) {
         val student = studentReader.getById(studentId)
-        studentValidator.validateDeletable(studentId)
         studentDeleter.delete(student)
     }
 }

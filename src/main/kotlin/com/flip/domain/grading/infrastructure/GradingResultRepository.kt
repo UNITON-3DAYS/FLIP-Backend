@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository
 interface GradingResultRepository : JpaRepository<GradingResult, Long> {
     fun findAllByGradingRecordId(gradingRecordId: Long): List<GradingResult>
 
+    fun deleteAllByGradingRecordIdIn(gradingRecordIds: List<Long>)
+
     fun findByGradingRecordIdAndPageAndQuestionNumber(
         gradingRecordId: Long,
         page: String,

@@ -55,7 +55,7 @@ class StudentController(
     }
 
     @DeleteMapping("/{studentId}")
-    @Operation(summary = "학생 삭제", description = "학생을 삭제합니다. 채점 기록이 있으면 삭제할 수 없습니다.")
+    @Operation(summary = "학생 삭제", description = "학생을 삭제합니다. 연관된 채점 기록/이미지/결과도 함께 삭제됩니다.")
     fun delete(
         @PathVariable studentId: Long
     ): ResponseEntity<Unit> {

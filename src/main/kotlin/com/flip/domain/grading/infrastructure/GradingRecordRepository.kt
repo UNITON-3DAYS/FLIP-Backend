@@ -14,6 +14,8 @@ interface GradingRecordRepository : JpaRepository<GradingRecord, Long> {
 
     fun existsByWorksheetId(worksheetId: Long): Boolean
 
+    fun findAllByStudentId(studentId: Long): List<GradingRecord>
+
     fun findAllByStudentIdAndStatusAndCreatedAtBetweenOrderByCreatedAtDesc(
         studentId: Long,
         status: GradingStatus,
