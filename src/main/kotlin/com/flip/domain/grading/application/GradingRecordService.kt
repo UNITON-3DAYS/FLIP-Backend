@@ -2,6 +2,7 @@ package com.flip.domain.grading.application
 
 import com.flip.domain.grading.presentation.CreateGradingSessionRequest
 import com.flip.domain.grading.presentation.GradingRecordDetailResponse
+import com.flip.domain.grading.presentation.GradingRecordListResponse
 import com.flip.domain.grading.presentation.GradingRecordStatusResponse
 import com.flip.domain.grading.presentation.GradingSessionResponse
 import com.flip.domain.grading.presentation.UploadGradingImageRequest
@@ -57,5 +58,10 @@ class GradingRecordService(
         gradingRecordValidator.validateOwner(gradingRecord, studentId)
         val wrongAnswers = wrongAnswerReader.findAllByGradingRecordId(gradingRecordId)
         return GradingRecordDetailResponse.of(gradingRecord, wrongAnswers)
+    }
+
+    fun getList(studentId: Long): GradingRecordListResponse {
+        val gradingRecords = gradingRecordReader.findAllCompletedByStudentId(studentId)
+        return GradingRecordListResponse.from(gradingRecords)
     }
 }

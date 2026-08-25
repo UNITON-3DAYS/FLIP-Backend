@@ -18,6 +18,14 @@ import org.springframework.web.bind.annotation.RestController
 class GradingRecordController(
     private val gradingRecordService: GradingRecordService
 ) {
+    @GetMapping
+    fun getList(
+        @RequestHeader("studentId") studentId: Long
+    ): ResponseEntity<GradingRecordListResponse> {
+        val response = gradingRecordService.getList(studentId)
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
     @PostMapping
     fun createSession(
         @RequestHeader("studentId") studentId: Long,

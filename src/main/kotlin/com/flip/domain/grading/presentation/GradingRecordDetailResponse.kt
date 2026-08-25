@@ -2,24 +2,21 @@ package com.flip.domain.grading.presentation
 
 import com.flip.domain.grading.domain.GradingRecord
 import com.flip.domain.grading.domain.WrongAnswer
-import java.time.format.DateTimeFormatter
-import java.util.Locale
+import java.time.LocalDateTime
 import kotlin.math.roundToInt
 
 data class GradingRecordDetailResponse(
     val worksheetTitle: String,
-    val createdAt: String,
+    val createdAt: LocalDateTime,
     val correctCount: Int,
     val totalCount: Int,
     val score: Int,
     val wrongAnswers: List<WrongAnswerResponse>
 ) {
     companion object {
-        private val DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy년 M월 d일", Locale.KOREAN)
-
         fun of(gradingRecord: GradingRecord, wrongAnswers: List<WrongAnswer>) = GradingRecordDetailResponse(
             worksheetTitle = gradingRecord.worksheet.title,
-            createdAt = gradingRecord.createdAt!!.format(DATE_FORMATTER),
+            createdAt = gradingRecord.createdAt!!,
             correctCount = gradingRecord.correctCount,
             totalCount = gradingRecord.totalCount,
             score = calculateScore(gradingRecord.correctCount, gradingRecord.totalCount),
