@@ -28,6 +28,9 @@ dependencies {
 	implementation("tools.jackson.module:jackson-module-kotlin")
 	implementation("com.google.cloud:google-cloud-storage:2.69.0")
 	runtimeOnly("com.mysql:mysql-connector-j")
+
+	// Swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")

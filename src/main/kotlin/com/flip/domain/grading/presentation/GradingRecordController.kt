@@ -1,6 +1,8 @@
 package com.flip.domain.grading.presentation
 
 import com.flip.domain.grading.application.GradingRecordService
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/grading-records")
+@Tag(name = "GradingRecord", description = "채점 기록 관련 API입니다.")
 class GradingRecordController(
     private val gradingRecordService: GradingRecordService
 ) {
     @GetMapping
+    @Operation(summary = "채점 기록 목록 조회")
     fun getList(
         @RequestHeader("studentId") studentId: Long
     ): ResponseEntity<GradingRecordListResponse> {
@@ -27,6 +31,7 @@ class GradingRecordController(
     }
 
     @PostMapping
+    @Operation(summary = "채점 세션 생성", description = "새로운 채점 세션을 시작합니다.")
     fun createSession(
         @RequestHeader("studentId") studentId: Long,
         @RequestBody @Valid request: CreateGradingSessionRequest
@@ -36,6 +41,7 @@ class GradingRecordController(
     }
 
     @PostMapping("/{gradingRecordId}/images")
+    @Operation(summary = "채점 이미지 업로드", description = "채점 세션에 채점할 이미지를 등록합니다.")
     fun uploadImage(
         @RequestHeader("studentId") studentId: Long,
         @PathVariable gradingRecordId: Long,
@@ -46,6 +52,7 @@ class GradingRecordController(
     }
 
     @PatchMapping("/{gradingRecordId}")
+    @Operation(summary = "채점 세션 종료", description = "채점 세션을 종료하고 채점을 진행합니다.")
     fun endSession(
         @RequestHeader("studentId") studentId: Long,
         @PathVariable gradingRecordId: Long,
@@ -56,6 +63,7 @@ class GradingRecordController(
     }
 
     @GetMapping("/{gradingRecordId}/status")
+    @Operation(summary = "채점 상태 조회")
     fun getStatus(
         @RequestHeader("studentId") studentId: Long,
         @PathVariable gradingRecordId: Long
@@ -65,6 +73,7 @@ class GradingRecordController(
     }
 
     @GetMapping("/{gradingRecordId}")
+    @Operation(summary = "채점 기록 상세 조회")
     fun getDetail(
         @RequestHeader("studentId") studentId: Long,
         @PathVariable gradingRecordId: Long
