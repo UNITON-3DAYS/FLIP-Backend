@@ -12,6 +12,8 @@ import com.flip.domain.student.application.StudentReader
 import com.flip.domain.worksheet.application.WorksheetCreator
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.DateTimeException
+import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
@@ -67,8 +69,17 @@ class GradingRecordService(
         return GradingRecordDetailResponse.of(gradingRecord, gradingResults)
     }
 
-    fun getList(studentId: Long): GradingRecordListResponse {
-        val gradingRecords = gradingRecordReader.findAllCompletedByStudentId(studentId)
+    fun getList(studentId: Long, year: Int, month: Int, day: Int): GradingRecordListResponse {
+        val date = toLocalDate(year, month, day)
+        val gradingRecords = gradingRecordReader.findAllCompletedByStudentIdAndDate(studentId, date)
         return GradingRecordListResponse.from(gradingRecords)
+    }
+
+    private fun toLocalDate(year: Int, month: Int, day: Int): LocalDate {
+        try {
+            return LocalDate.of(year, month, day)
+        } catch (e: DateTimeException) {
+            throw IllegalArgumentException("유효하지 않은 날짜입니다: $year-$month-$day", e)
+        }
     }
 }

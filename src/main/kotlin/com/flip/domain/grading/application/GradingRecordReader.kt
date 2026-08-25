@@ -6,6 +6,7 @@ import com.flip.domain.grading.domain.GradingRecord
 import com.flip.domain.grading.domain.GradingStatus
 import com.flip.domain.grading.infrastructure.GradingRecordRepository
 import org.springframework.stereotype.Component
+import java.time.LocalDate
 
 @Component
 class GradingRecordReader(
@@ -16,7 +17,11 @@ class GradingRecordReader(
             .orElseThrow { CustomException(ErrorCode.GRADING_RECORD_NOT_FOUND) }
     }
 
-    fun findAllCompletedByStudentId(studentId: Long): List<GradingRecord> {
-        return gradingRecordRepository.findAllByStudentIdAndStatusOrderByCreatedAtDesc(studentId, GradingStatus.COMPLETED)
+    fun findAllCompletedByStudentIdAndDate(studentId: Long, date: LocalDate): List<GradingRecord> {
+        val start = date.atStartOfDay()
+        val end = start.plusDays(1)
+        return gradingRecordRepository.findAllByStudentIdAndStatusAndCreatedAtBetweenOrderByCreatedAtDesc(
+            studentId, GradingStatus.COMPLETED, start, end
+        )
     }
 }

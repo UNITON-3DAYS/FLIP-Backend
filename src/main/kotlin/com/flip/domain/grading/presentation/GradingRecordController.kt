@@ -2,6 +2,7 @@ package com.flip.domain.grading.presentation
 
 import com.flip.domain.grading.application.GradingRecordService
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -22,11 +24,14 @@ class GradingRecordController(
     private val gradingRecordService: GradingRecordService
 ) {
     @GetMapping
-    @Operation(summary = "채점 기록 목록 조회")
+    @Operation(summary = "채점 기록 목록 조회", description = "특정 날짜(연/월/일)에 완료된 채점 기록 목록을 조회합니다.")
     fun getList(
-        @RequestHeader("studentId") studentId: Long
+        @RequestHeader("studentId") studentId: Long,
+        @RequestParam @Parameter(description = "연도", example = "2026") year: Int,
+        @RequestParam @Parameter(description = "월", example = "8") month: Int,
+        @RequestParam @Parameter(description = "일", example = "25") day: Int
     ): ResponseEntity<GradingRecordListResponse> {
-        val response = gradingRecordService.getList(studentId)
+        val response = gradingRecordService.getList(studentId, year, month, day)
         return ResponseEntity(response, HttpStatus.OK)
     }
 
