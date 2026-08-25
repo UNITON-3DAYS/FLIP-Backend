@@ -6,6 +6,7 @@ import com.flip.integration.ocr.application.GradingOcrQuestionResult
 import com.flip.integration.ocr.application.GradingOcrResult
 import com.flip.integration.ocr.application.GradingOcrVerdict
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 
@@ -28,6 +29,7 @@ class FlipAiGradingOcrClient(
         )
 
         val response = restClient.post()
+            .contentType(MediaType.APPLICATION_JSON)
             .body(request)
             .retrieve()
             .body(GradingOcrRawResponse::class.java)

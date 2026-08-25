@@ -26,13 +26,15 @@ class RestClientConfig {
         return RestClient.builder()
             .requestFactory(requestFactory)
             .requestInterceptor(ClientHttpRequestInterceptor { request, body, execution ->
+                val bodyString = if (body.isNotEmpty()) String(body, Charsets.UTF_8).take(500) else "<empty>"
+
                 log.info(
                     "[RestClient] {} {} contentType={} bodyBytes={} bodyPreview={}",
                     request.method,
                     request.uri,
                     request.headers.contentType,
                     body.size,
-                    String(body).take(500)
+                    bodyString
                 )
                 execution.execute(request, body)
             })
