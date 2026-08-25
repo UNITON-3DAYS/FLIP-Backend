@@ -36,7 +36,7 @@ class StudentController(
     }
 
     @PostMapping
-    @Operation(summary = "학생 생성", description = "새로운 학생을 생성합니다. 비밀번호는 BCrypt로 해싱됩니다.")
+    @Operation(summary = "학생 생성", description = "새로운 학생을 생성합니다.")
     fun create(
         @RequestBody @Valid request: CreateStudentRequest
     ): ResponseEntity<StudentResponse> {

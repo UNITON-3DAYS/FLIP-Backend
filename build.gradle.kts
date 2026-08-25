@@ -27,7 +27,6 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("com.google.cloud:google-cloud-storage:2.69.0")
-	implementation("org.springframework.security:spring-security-crypto")
 	runtimeOnly("com.mysql:mysql-connector-j")
 
 	// Swagger

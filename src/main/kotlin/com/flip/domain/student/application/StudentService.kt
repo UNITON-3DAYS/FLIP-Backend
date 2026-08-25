@@ -6,7 +6,6 @@ import com.flip.domain.student.presentation.StudentDetailResponse
 import com.flip.domain.student.presentation.StudentListResponse
 import com.flip.domain.student.presentation.StudentResponse
 import com.flip.domain.student.presentation.UpdateStudentRequest
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,8 +16,7 @@ class StudentService(
     private val studentCreator: StudentCreator,
     private val studentValidator: StudentValidator,
     private val studentDeleter: StudentDeleter,
-    private val schoolReader: SchoolReader,
-    private val passwordEncoder: BCryptPasswordEncoder
+    private val schoolReader: SchoolReader
 ) {
     fun getList(): StudentListResponse {
         val students = studentReader.findAll()
@@ -48,7 +46,7 @@ class StudentService(
         request.name?.let { student.name = it }
         request.grade?.let { student.grade = it }
         request.schoolId?.let { student.school = schoolReader.getById(it) }
-        request.password?.let { student.password = passwordEncoder.encode(it) }
+        request.password?.let { student.password = it }
         return StudentResponse.from(student)
     }
 
