@@ -25,7 +25,7 @@ interface GradingRecordRepository : JpaRepository<GradingRecord, Long> {
 
     @Query(
         "SELECT gr FROM GradingRecord gr JOIN FETCH gr.student JOIN FETCH gr.worksheet " +
-            "WHERE gr.status = :status ORDER BY gr.createdAt DESC"
+            "WHERE gr.status = :status ORDER BY gr.createdAt ASC"
     )
     fun findAllByStatusWithStudentAndWorksheet(@Param("status") status: GradingStatus): List<GradingRecord>
 }
