@@ -33,4 +33,13 @@ class GradingRecordService(
         gradingRecordValidator.validateInProgress(gradingRecord)
         gradingImageCreator.create(gradingRecord, request.imageUrl)
     }
+
+    @Transactional
+    fun completeSession(studentId: Long, gradingRecordId: Long): GradingSessionResponse {
+        val gradingRecord = gradingRecordReader.getById(gradingRecordId)
+        gradingRecordValidator.validateOwner(gradingRecord, studentId)
+        gradingRecordValidator.validateInProgress(gradingRecord)
+        gradingRecord.complete()
+        return GradingSessionResponse.from(gradingRecord)
+    }
 }

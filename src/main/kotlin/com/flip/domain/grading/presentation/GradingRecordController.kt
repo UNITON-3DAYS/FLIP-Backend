@@ -4,6 +4,7 @@ import com.flip.domain.grading.application.GradingRecordService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -33,5 +34,14 @@ class GradingRecordController(
     ): ResponseEntity<Unit> {
         gradingRecordService.uploadImage(studentId, gradingRecordId, request)
         return ResponseEntity.ok().build()
+    }
+
+    @PatchMapping("/{gradingRecordId}")
+    fun completeSession(
+        @RequestHeader("studentId") studentId: Long,
+        @PathVariable gradingRecordId: Long
+    ): ResponseEntity<GradingSessionResponse> {
+        val response = gradingRecordService.completeSession(studentId, gradingRecordId)
+        return ResponseEntity(response, HttpStatus.OK)
     }
 }
