@@ -19,7 +19,7 @@ class Student(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id", nullable = false)
-    val school: School,
+    var school: School,
 
     @Column(nullable = false)
     var grade: Int,
