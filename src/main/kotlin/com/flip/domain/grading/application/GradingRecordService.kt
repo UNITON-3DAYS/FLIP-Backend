@@ -20,7 +20,8 @@ class GradingRecordService(
     private val gradingRecordReader: GradingRecordReader,
     private val gradingRecordValidator: GradingRecordValidator,
     private val gradingImageCreator: GradingImageCreator,
-    private val wrongAnswerReader: WrongAnswerReader
+    private val gradingResultRecorder: GradingResultRecorder,
+    private val gradingResultReader: GradingResultReader
 ) {
     @Transactional
     fun createSession(studentId: Long, request: CreateGradingSessionRequest): GradingSessionResponse {
@@ -36,6 +37,7 @@ class GradingRecordService(
         gradingRecordValidator.validateOwner(gradingRecord, studentId)
         gradingRecordValidator.validateInProgress(gradingRecord)
         gradingImageCreator.create(gradingRecord, request.imageUrl)
+        gradingResultRecorder.record(gradingRecord, gradingRecord.worksheet, request.imageUrl)
     }
 
     @Transactional
@@ -43,7 +45,7 @@ class GradingRecordService(
         val gradingRecord = gradingRecordReader.getById(gradingRecordId)
         gradingRecordValidator.validateOwner(gradingRecord, studentId)
         gradingRecordValidator.validateInProgress(gradingRecord)
-        gradingRecord.startGrading()
+        gradingRecord.complete()
         return GradingSessionResponse.from(gradingRecord)
     }
 
@@ -56,8 +58,8 @@ class GradingRecordService(
     fun getDetail(studentId: Long, gradingRecordId: Long): GradingRecordDetailResponse {
         val gradingRecord = gradingRecordReader.getById(gradingRecordId)
         gradingRecordValidator.validateOwner(gradingRecord, studentId)
-        val wrongAnswers = wrongAnswerReader.findAllByGradingRecordId(gradingRecordId)
-        return GradingRecordDetailResponse.of(gradingRecord, wrongAnswers)
+        val gradingResults = gradingResultReader.findAllByGradingRecordId(gradingRecordId)
+        return GradingRecordDetailResponse.of(gradingRecord, gradingResults)
     }
 
     fun getList(studentId: Long): GradingRecordListResponse {

@@ -28,21 +28,10 @@ class GradingRecord(
     @JoinColumn(name = "worksheet_id", nullable = false)
     val worksheet: Worksheet,
 
-    @Column(nullable = false)
-    var totalCount: Int = 0,
-
-    @Column(nullable = false)
-    var correctCount: Int = 0,
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var status: GradingStatus = GradingStatus.IN_PROGRESS
 ) : BaseEntity() {
-
-    fun addGradedQuestion(isCorrect: Boolean) {
-        this.totalCount++
-        if (isCorrect) this.correctCount++
-    }
 
     fun startGrading() {
         this.status = GradingStatus.GRADING

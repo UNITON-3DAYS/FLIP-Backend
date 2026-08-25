@@ -20,6 +20,10 @@ gcp:
     bucket: ${GCS_BUCKET_NAME:flip-dev-bucket}
     credentials-path: classpath:gcp/service-key.json
 
+flip-ai:
+  api:
+    url: ${FLIP_AI_API_URL:http://localhost:8000/grade}
+
 logging:
   level:
     org.hibernate.SQL: debug

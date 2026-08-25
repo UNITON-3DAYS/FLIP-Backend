@@ -1,17 +1,15 @@
 package com.flip.domain.grading.presentation
 
-import com.flip.domain.grading.domain.WrongAnswer
+import com.flip.domain.grading.domain.GradingResult
 
 data class WrongAnswerResponse(
-    val questionNumber: Int,
-    val correctAnswer: String,
+    val questionNumber: String,
     val studentAnswer: String
 ) {
     companion object {
-        fun from(wrongAnswer: WrongAnswer) = WrongAnswerResponse(
-            questionNumber = wrongAnswer.question.questionNumber,
-            correctAnswer = wrongAnswer.question.correctAnswer,
-            studentAnswer = wrongAnswer.studentAnswer
+        fun from(gradingResult: GradingResult) = WrongAnswerResponse(
+            questionNumber = gradingResult.questionNumber,
+            studentAnswer = gradingResult.studentAnswer
         )
     }
 }
