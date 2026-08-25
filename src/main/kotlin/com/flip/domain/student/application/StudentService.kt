@@ -2,6 +2,7 @@ package com.flip.domain.student.application
 
 import com.flip.domain.school.application.SchoolReader
 import com.flip.domain.student.presentation.CreateStudentRequest
+import com.flip.domain.student.presentation.StudentDetailResponse
 import com.flip.domain.student.presentation.StudentListResponse
 import com.flip.domain.student.presentation.StudentResponse
 import com.flip.domain.student.presentation.UpdateStudentRequest
@@ -24,9 +25,9 @@ class StudentService(
         return StudentListResponse.from(students)
     }
 
-    fun getDetail(studentId: Long): StudentResponse {
+    fun getDetail(studentId: Long): StudentDetailResponse {
         val student = studentReader.getById(studentId)
-        return StudentResponse.from(student)
+        return StudentDetailResponse.from(student)
     }
 
     @Transactional

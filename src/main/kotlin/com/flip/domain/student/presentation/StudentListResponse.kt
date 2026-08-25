@@ -32,3 +32,26 @@ data class StudentResponse(
         )
     }
 }
+
+data class StudentDetailResponse(
+    @field:Schema(description = "학생 ID", example = "1")
+    val studentId: Long,
+
+    @field:Schema(description = "학년", example = "1")
+    val grade: Int,
+
+    @field:Schema(description = "학생 이름", example = "홍길동")
+    val name: String,
+
+    @field:Schema(description = "학교 이름", example = "서울고등학교")
+    val schoolName: String
+) {
+    companion object {
+        fun from(student: Student) = StudentDetailResponse(
+            studentId = student.id!!,
+            grade = student.grade,
+            name = student.name,
+            schoolName = student.school.name
+        )
+    }
+}
