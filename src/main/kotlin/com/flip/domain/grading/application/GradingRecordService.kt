@@ -2,6 +2,7 @@ package com.flip.domain.grading.application
 
 import com.flip.domain.grading.presentation.CreateGradingSessionRequest
 import com.flip.domain.grading.presentation.GradingSessionResponse
+import com.flip.domain.grading.presentation.UploadGradingImageRequest
 import com.flip.domain.student.application.StudentReader
 import com.flip.domain.worksheet.application.WorksheetCreator
 import org.springframework.stereotype.Service
@@ -12,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional
 class GradingRecordService(
     private val studentReader: StudentReader,
     private val worksheetCreator: WorksheetCreator,
-    private val gradingRecordCreator: GradingRecordCreator
+    private val gradingRecordCreator: GradingRecordCreator,
+    private val gradingRecordReader: GradingRecordReader,
+    private val gradingRecordValidator: GradingRecordValidator,
+    private val gradingImageCreator: GradingImageCreator
 ) {
     @Transactional
     fun createSession(studentId: Long, request: CreateGradingSessionRequest): GradingSessionResponse {
@@ -20,5 +24,13 @@ class GradingRecordService(
         val worksheet = worksheetCreator.findOrCreate(request.worksheetTitle, request.worksheetSource)
         val gradingRecord = gradingRecordCreator.create(student, worksheet)
         return GradingSessionResponse.from(gradingRecord)
+    }
+
+    @Transactional
+    fun uploadImage(studentId: Long, gradingRecordId: Long, request: UploadGradingImageRequest) {
+        val gradingRecord = gradingRecordReader.getById(gradingRecordId)
+        gradingRecordValidator.validateOwner(gradingRecord, studentId)
+        gradingRecordValidator.validateInProgress(gradingRecord)
+        gradingImageCreator.create(gradingRecord, request.imageUrl)
     }
 }
