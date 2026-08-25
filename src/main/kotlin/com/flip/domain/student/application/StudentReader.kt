@@ -14,4 +14,8 @@ class StudentReader(
         return studentRepository.findById(studentId)
             .orElseThrow { CustomException(ErrorCode.STUDENT_NOT_FOUND) }
     }
+
+    fun findAll(): List<Student> {
+        return studentRepository.findAll()
+    }
 }
