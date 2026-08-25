@@ -8,6 +8,7 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - FLIP_AI_API_URL=http://flip:8000/grade
     volumes:
       - ./logs:/logs
     networks:
