@@ -9,3 +9,35 @@ terraform/terraform.tfvars
 terraform/*-key.json
 terraform/*.json
 terraform/tfplan
+
+# gradle
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+.kotlin
+
+# IDE
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.vscode/
+
+# secrets / local resources (CI writes these at build time, never commit)
+src/main/resources/gcp/
+src/main/resources/application-local.yml

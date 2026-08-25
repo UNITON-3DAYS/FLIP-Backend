@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: flip
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:flip}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+gcp:
+  storage:
+    bucket: ${GCS_BUCKET_NAME:flip-dev-bucket}
+    credentials-path: classpath:gcp/service-key.json
+
+logging:
+  level:
+    org.hibernate.SQL: debug

@@ -1,5 +1,5 @@
 services:
-  application-prod:
+  api-server:
     image: ${DOCKER_IMAGE_PROD}
     container_name: flip-server-prod
     profiles: ["prod"]
