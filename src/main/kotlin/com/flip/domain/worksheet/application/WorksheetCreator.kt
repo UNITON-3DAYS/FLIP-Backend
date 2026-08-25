@@ -13,4 +13,8 @@ class WorksheetCreator(
         return worksheetRepository.findByTitleAndSource(title, source)
             ?: worksheetRepository.save(Worksheet(title = title, source = source))
     }
+
+    fun create(title: String, source: WorksheetSource): Worksheet {
+        return worksheetRepository.save(Worksheet(title = title, source = source))
+    }
 }
