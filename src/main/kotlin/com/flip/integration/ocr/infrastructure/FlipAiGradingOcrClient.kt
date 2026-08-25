@@ -22,10 +22,16 @@ class FlipAiGradingOcrClient(
         .build()
 
     override fun grade(worksheetSource: WorksheetSource, worksheetTitle: String, imageBase64: String): GradingOcrResult {
+        val cleanBase64 = imageBase64
+            .replace("\r", "")
+            .replace("\n", "")
+            .replace(" ", "")
+            .trim()
+
         val request = GradingOcrRequest(
             workSheetSource = toApiValue(worksheetSource),
             name = worksheetTitle,
-            imageBase64 = imageBase64
+            imageBase64 = cleanBase64
         )
 
         val response = restClient.post()
