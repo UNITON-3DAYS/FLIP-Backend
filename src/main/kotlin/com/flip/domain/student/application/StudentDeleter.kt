@@ -15,13 +15,12 @@ class StudentDeleter(
     private val gradingResultRepository: GradingResultRepository
 ) {
     fun delete(student: Student) {
-        val gradingRecords = gradingRecordRepository.findAllByStudentId(student.id!!)
-        val gradingRecordIds = gradingRecords.map { it.id!! }
+        val gradingRecordIds = gradingRecordRepository.findIdsByStudentId(student.id!!)
 
         if (gradingRecordIds.isNotEmpty()) {
             gradingImageRepository.deleteAllByGradingRecordIdIn(gradingRecordIds)
             gradingResultRepository.deleteAllByGradingRecordIdIn(gradingRecordIds)
-            gradingRecordRepository.deleteAllInBatch(gradingRecords)
+            gradingRecordRepository.deleteAllByStudentId(student.id!!)
         }
 
         studentRepository.delete(student)
