@@ -8,8 +8,15 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 
 @Entity
+@Table(
+    uniqueConstraints = [
+        UniqueConstraint(name = "uk_worksheet_title_source", columnNames = ["title", "source"])
+    ]
+)
 class Worksheet(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
