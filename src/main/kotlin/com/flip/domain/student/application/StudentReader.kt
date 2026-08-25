@@ -16,6 +16,6 @@ class StudentReader(
     }
 
     fun findAll(): List<Student> {
-        return studentRepository.findAll()
+        return studentRepository.findAllWithSchool()
     }
 }

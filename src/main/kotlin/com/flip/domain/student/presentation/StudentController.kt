@@ -30,7 +30,7 @@ class StudentController(
 
     @GetMapping("/{studentId}")
     @Operation(summary = "학생 상세 조회")
-    fun getDetail(@PathVariable studentId: Long): ResponseEntity<StudentDetailResponse> {
+    fun getDetail(@PathVariable studentId: Long): ResponseEntity<StudentResponse> {
         val response = studentService.getDetail(studentId)
         return ResponseEntity(response, HttpStatus.OK)
     }
