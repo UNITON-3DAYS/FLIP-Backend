@@ -4,22 +4,15 @@ import com.flip.domain.grading.domain.GradingRecord
 import com.flip.domain.grading.domain.GradingResult
 import com.flip.domain.grading.domain.GradingResultVerdict
 import com.flip.domain.grading.infrastructure.GradingResultRepository
-import com.flip.domain.worksheet.domain.Worksheet
-import com.flip.integration.ocr.application.GradingOcrClient
+import com.flip.integration.ocr.application.GradingOcrResult
 import com.flip.integration.ocr.application.GradingOcrVerdict
-import com.flip.integration.storage.application.FileUploader
 import org.springframework.stereotype.Component
 
 @Component
 class GradingResultRecorder(
-    private val fileUploader: FileUploader,
-    private val gradingOcrClient: GradingOcrClient,
     private val gradingResultRepository: GradingResultRepository
 ) {
-    fun record(gradingRecord: GradingRecord, worksheet: Worksheet, imageUrl: String) {
-        val imageBase64 = fileUploader.downloadAsBase64(imageUrl)
-        val ocrResult = gradingOcrClient.grade(worksheet.source, worksheet.title, imageBase64)
-
+    fun record(gradingRecord: GradingRecord, ocrResult: GradingOcrResult) {
         if (!ocrResult.isUsable) return
 
         ocrResult.results

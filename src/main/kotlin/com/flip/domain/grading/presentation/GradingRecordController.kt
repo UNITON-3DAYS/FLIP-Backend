@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/grading-records")
@@ -45,14 +47,14 @@ class GradingRecordController(
         return ResponseEntity(response, HttpStatus.OK)
     }
 
-    @PostMapping("/{gradingRecordId}/images")
-    @Operation(summary = "채점 이미지 업로드", description = "채점 세션에 채점할 이미지를 등록합니다.")
+    @PostMapping("/{gradingRecordId}/images", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @Operation(summary = "채점 이미지 업로드", description = "채점 세션에 채점할 이미지 파일을 업로드합니다.")
     fun uploadImage(
         @RequestHeader("studentId") studentId: Long,
         @PathVariable gradingRecordId: Long,
-        @RequestBody @Valid request: UploadGradingImageRequest
+        @RequestParam("file") file: MultipartFile
     ): ResponseEntity<GradingImageResponse> {
-        val response = gradingRecordService.uploadImage(studentId, gradingRecordId, request)
+        val response = gradingRecordService.uploadImage(studentId, gradingRecordId, file)
         return ResponseEntity(response, HttpStatus.OK)
     }
 
