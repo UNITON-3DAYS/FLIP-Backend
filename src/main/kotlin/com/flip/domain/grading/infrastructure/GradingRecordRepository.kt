@@ -12,6 +12,8 @@ import java.time.LocalDateTime
 interface GradingRecordRepository : JpaRepository<GradingRecord, Long> {
     fun existsByStudentId(studentId: Long): Boolean
 
+    fun existsByWorksheetId(worksheetId: Long): Boolean
+
     fun findAllByStudentIdAndStatusAndCreatedAtBetweenOrderByCreatedAtDesc(
         studentId: Long,
         status: GradingStatus,

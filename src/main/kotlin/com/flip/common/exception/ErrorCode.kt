@@ -27,6 +27,8 @@ enum class ErrorCode(
 
     // Worksheet
     WORKSHEET_NOT_FOUND(HttpStatus.NOT_FOUND, "문제지 정보를 찾을 수 없습니다."),
+    WORKSHEET_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 문제지입니다."),
+    WORKSHEET_HAS_REFERENCES(HttpStatus.CONFLICT, "참조 중인 데이터가 있어 문제지를 삭제할 수 없습니다."),
 
     // GradingRecord
     GRADING_RECORD_NOT_FOUND(HttpStatus.NOT_FOUND, "채점 기록을 찾을 수 없습니다."),
