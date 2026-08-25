@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class GradingImageCreator(
     private val gradingImageRepository: GradingImageRepository
 ) {
-    fun create(gradingRecord: GradingRecord, imageUrl: String) {
-        gradingImageRepository.save(GradingImage(gradingRecord = gradingRecord, imageUrl = imageUrl))
+    fun create(gradingRecord: GradingRecord, imageUrl: String): GradingImage {
+        return gradingImageRepository.save(GradingImage(gradingRecord = gradingRecord, imageUrl = imageUrl))
     }
 }

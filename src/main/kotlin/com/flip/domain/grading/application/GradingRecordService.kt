@@ -1,6 +1,8 @@
 package com.flip.domain.grading.application
 
 import com.flip.domain.grading.presentation.CreateGradingSessionRequest
+import com.flip.domain.grading.presentation.EndGradingSessionRequest
+import com.flip.domain.grading.presentation.GradingImageResponse
 import com.flip.domain.grading.presentation.GradingRecordDetailResponse
 import com.flip.domain.grading.presentation.GradingRecordListResponse
 import com.flip.domain.grading.presentation.GradingRecordStatusResponse
@@ -20,6 +22,7 @@ class GradingRecordService(
     private val gradingRecordReader: GradingRecordReader,
     private val gradingRecordValidator: GradingRecordValidator,
     private val gradingImageCreator: GradingImageCreator,
+    private val gradingImageReader: GradingImageReader,
     private val gradingResultRecorder: GradingResultRecorder,
     private val gradingResultReader: GradingResultReader
 ) {
@@ -32,19 +35,21 @@ class GradingRecordService(
     }
 
     @Transactional
-    fun uploadImage(studentId: Long, gradingRecordId: Long, request: UploadGradingImageRequest) {
+    fun uploadImage(studentId: Long, gradingRecordId: Long, request: UploadGradingImageRequest): GradingImageResponse {
         val gradingRecord = gradingRecordReader.getById(gradingRecordId)
         gradingRecordValidator.validateOwner(gradingRecord, studentId)
         gradingRecordValidator.validateInProgress(gradingRecord)
-        gradingImageCreator.create(gradingRecord, request.imageUrl)
+        val gradingImage = gradingImageCreator.create(gradingRecord, request.imageUrl)
         gradingResultRecorder.record(gradingRecord, gradingRecord.worksheet, request.imageUrl)
+        return GradingImageResponse.from(gradingImage)
     }
 
     @Transactional
-    fun endSession(studentId: Long, gradingRecordId: Long): GradingSessionResponse {
+    fun endSession(studentId: Long, gradingRecordId: Long, request: EndGradingSessionRequest): GradingSessionResponse {
         val gradingRecord = gradingRecordReader.getById(gradingRecordId)
         gradingRecordValidator.validateOwner(gradingRecord, studentId)
         gradingRecordValidator.validateInProgress(gradingRecord)
+        gradingImageReader.validateBelongsTo(request.gradingImageId, gradingRecordId)
         gradingRecord.complete()
         return GradingSessionResponse.from(gradingRecord)
     }

@@ -33,10 +33,6 @@ class GradingRecord(
     var status: GradingStatus = GradingStatus.IN_PROGRESS
 ) : BaseEntity() {
 
-    fun startGrading() {
-        this.status = GradingStatus.GRADING
-    }
-
     fun complete() {
         this.status = GradingStatus.COMPLETED
     }

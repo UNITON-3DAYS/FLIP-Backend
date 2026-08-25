@@ -40,17 +40,18 @@ class GradingRecordController(
         @RequestHeader("studentId") studentId: Long,
         @PathVariable gradingRecordId: Long,
         @RequestBody @Valid request: UploadGradingImageRequest
-    ): ResponseEntity<Unit> {
-        gradingRecordService.uploadImage(studentId, gradingRecordId, request)
-        return ResponseEntity.ok().build()
+    ): ResponseEntity<GradingImageResponse> {
+        val response = gradingRecordService.uploadImage(studentId, gradingRecordId, request)
+        return ResponseEntity(response, HttpStatus.OK)
     }
 
     @PatchMapping("/{gradingRecordId}")
     fun endSession(
         @RequestHeader("studentId") studentId: Long,
-        @PathVariable gradingRecordId: Long
+        @PathVariable gradingRecordId: Long,
+        @RequestBody @Valid request: EndGradingSessionRequest
     ): ResponseEntity<GradingSessionResponse> {
-        val response = gradingRecordService.endSession(studentId, gradingRecordId)
+        val response = gradingRecordService.endSession(studentId, gradingRecordId, request)
         return ResponseEntity(response, HttpStatus.OK)
     }
 
