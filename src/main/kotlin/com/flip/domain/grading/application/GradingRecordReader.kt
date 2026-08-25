@@ -24,4 +24,8 @@ class GradingRecordReader(
             studentId, GradingStatus.COMPLETED, start, end
         )
     }
+
+    fun findAllCompleted(): List<GradingRecord> {
+        return gradingRecordRepository.findAllByStatusWithStudentAndWorksheet(GradingStatus.COMPLETED)
+    }
 }

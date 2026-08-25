@@ -1,5 +1,6 @@
 package com.flip.domain.grading.application
 
+import com.flip.domain.grading.presentation.AdminGradingRecordListResponse
 import com.flip.domain.grading.presentation.CreateGradingSessionRequest
 import com.flip.domain.grading.presentation.EndGradingSessionRequest
 import com.flip.domain.grading.presentation.GradingImageResponse
@@ -73,6 +74,17 @@ class GradingRecordService(
         val date = toLocalDate(year, month, day)
         val gradingRecords = gradingRecordReader.findAllCompletedByStudentIdAndDate(studentId, date)
         return GradingRecordListResponse.from(gradingRecords)
+    }
+
+    fun getAdminList(): AdminGradingRecordListResponse {
+        val gradingRecords = gradingRecordReader.findAllCompleted()
+        return AdminGradingRecordListResponse.from(gradingRecords)
+    }
+
+    fun getAdminDetail(gradingRecordId: Long): GradingRecordDetailResponse {
+        val gradingRecord = gradingRecordReader.getById(gradingRecordId)
+        val gradingResults = gradingResultReader.findAllByGradingRecordId(gradingRecordId)
+        return GradingRecordDetailResponse.of(gradingRecord, gradingResults)
     }
 
     private fun toLocalDate(year: Int, month: Int, day: Int): LocalDate {
