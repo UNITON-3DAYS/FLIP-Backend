@@ -41,3 +41,4 @@ out/
 # secrets / local resources (CI writes these at build time, never commit)
 src/main/resources/gcp/
 src/main/resources/application-local.yml
+src/main/resources/application.yml

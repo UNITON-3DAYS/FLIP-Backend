@@ -15,11 +15,10 @@ resource "google_sql_database_instance" "main" {
         name  = "prod-vm"
         value = google_compute_address.prod.address
       }
-      # DataGrip 등 외부 접속 시 SSH 터널 사용 (prod VM 경유)
-      # authorized_networks {
-      #   name  = "my-ip"
-      #   value = "YOUR_IP/32"
-      # }
+      authorized_networks {
+        name  = "local-dev"
+        value = "211.181.188.123/32"
+      }
     }
 
     backup_configuration {

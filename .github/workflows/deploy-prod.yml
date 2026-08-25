@@ -28,6 +28,7 @@ jobs:
       - name: Set environment values
         run: |
           mkdir -p src/main/resources/gcp
+          echo "${{ secrets.APPLICATION_PROPERTIES_PROD }}" | base64 --decode > src/main/resources/application.yml
           echo "${{ secrets.GCP_SERVICE_KEY }}" | base64 --decode > src/main/resources/gcp/service-key.json
         shell: bash
 
@@ -75,11 +76,5 @@ jobs:
 
             sed -i '/DOCKER_IMAGE_PROD/d' .env
             echo "DOCKER_IMAGE_PROD=${IMAGE_TAG}" >> .env
-
-            sed -i '/DB_HOST\|DB_NAME\|DB_USERNAME\|DB_PASSWORD/d' .env
-            echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-            echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
 
             sudo docker compose --profile prod up -d --no-deps api-server
