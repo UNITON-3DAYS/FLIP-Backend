@@ -30,6 +30,7 @@ class FlipAiGradingOcrClient(
 
         val response = restClient.post()
             .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
             .body(request)
             .retrieve()
             .body(GradingOcrRawResponse::class.java)

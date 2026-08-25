@@ -3,7 +3,7 @@ package com.flip.integration.ocr.infrastructure
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class GradingOcrRequest(
-    @JsonProperty("worksheet_source")
+    @JsonProperty("workSheetSource")
     val workSheetSource: String,
 
     @JsonProperty("name")
