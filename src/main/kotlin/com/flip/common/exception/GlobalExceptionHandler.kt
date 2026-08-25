@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.HandlerMethodValidationException
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import org.springframework.web.multipart.MaxUploadSizeExceededException
 import org.springframework.web.servlet.NoHandlerFoundException
 import org.springframework.web.servlet.resource.NoResourceFoundException
 
@@ -80,6 +81,13 @@ class GlobalExceptionHandler {
     fun handleBadRequestException(e: Exception, request: HttpServletRequest): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE)
         log.warn("[Bad Request] {} {}, type={}, message={}", request.method, request.requestURI, e::class.simpleName, e.message)
+        return ResponseEntity.status(errorResponse.status).body(errorResponse)
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException::class)
+    fun handleMaxUploadSizeExceededException(e: MaxUploadSizeExceededException, request: HttpServletRequest): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse.of(ErrorCode.FILE_SIZE_EXCEEDED)
+        log.warn("[File Size Exceeded] {} {}, message={}", request.method, request.requestURI, errorResponse.message)
         return ResponseEntity.status(errorResponse.status).body(errorResponse)
     }
 
