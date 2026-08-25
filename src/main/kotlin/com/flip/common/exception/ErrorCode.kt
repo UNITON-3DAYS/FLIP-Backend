@@ -23,6 +23,7 @@ enum class ErrorCode(
 
     // Student
     STUDENT_NOT_FOUND(HttpStatus.NOT_FOUND, "학생 정보를 찾을 수 없습니다."),
+    STUDENT_HAS_GRADING_RECORDS(HttpStatus.CONFLICT, "채점 기록이 있어 학생을 삭제할 수 없습니다."),
 
     // Worksheet
     WORKSHEET_NOT_FOUND(HttpStatus.NOT_FOUND, "문제지 정보를 찾을 수 없습니다."),
