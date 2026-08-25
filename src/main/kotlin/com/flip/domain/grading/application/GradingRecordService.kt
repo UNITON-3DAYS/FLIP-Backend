@@ -1,6 +1,7 @@
 package com.flip.domain.grading.application
 
 import com.flip.domain.grading.presentation.CreateGradingSessionRequest
+import com.flip.domain.grading.presentation.GradingRecordStatusResponse
 import com.flip.domain.grading.presentation.GradingSessionResponse
 import com.flip.domain.grading.presentation.UploadGradingImageRequest
 import com.flip.domain.student.application.StudentReader
@@ -41,5 +42,11 @@ class GradingRecordService(
         gradingRecordValidator.validateInProgress(gradingRecord)
         gradingRecord.complete()
         return GradingSessionResponse.from(gradingRecord)
+    }
+
+    fun getStatus(studentId: Long, gradingRecordId: Long): GradingRecordStatusResponse {
+        val gradingRecord = gradingRecordReader.getById(gradingRecordId)
+        gradingRecordValidator.validateOwner(gradingRecord, studentId)
+        return GradingRecordStatusResponse.from(gradingRecord)
     }
 }

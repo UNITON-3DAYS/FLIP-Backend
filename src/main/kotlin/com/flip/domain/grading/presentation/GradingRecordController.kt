@@ -4,6 +4,7 @@ import com.flip.domain.grading.application.GradingRecordService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -42,6 +43,15 @@ class GradingRecordController(
         @PathVariable gradingRecordId: Long
     ): ResponseEntity<GradingSessionResponse> {
         val response = gradingRecordService.completeSession(studentId, gradingRecordId)
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
+    @GetMapping("/{gradingRecordId}/status")
+    fun getStatus(
+        @RequestHeader("studentId") studentId: Long,
+        @PathVariable gradingRecordId: Long
+    ): ResponseEntity<GradingRecordStatusResponse> {
+        val response = gradingRecordService.getStatus(studentId, gradingRecordId)
         return ResponseEntity(response, HttpStatus.OK)
     }
 }
