@@ -1,0 +1,18 @@
+services:
+  application-prod:
+    image: ${DOCKER_IMAGE_PROD}
+    container_name: flip-server-prod
+    profiles: ["prod"]
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    volumes:
+      - ./logs:/logs
+    networks:
+      - flip-net
+
+networks:
+  flip-net:
+    external: true

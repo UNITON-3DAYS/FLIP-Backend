@@ -1,0 +1,6 @@
+project_id     = "your-gcp-project-id"
+bucket_name    = "flip-bucket"
+db_user        = "flip"
+db_password    = "your-secure-password"
+ssh_username   = "your-ssh-username"
+ssh_public_key = "ssh-ed25519 AAAA..."
