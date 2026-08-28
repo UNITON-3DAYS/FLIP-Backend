@@ -29,6 +29,10 @@ enum class ErrorCode(
     WORKSHEET_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 문제지입니다."),
     WORKSHEET_HAS_REFERENCES(HttpStatus.CONFLICT, "참조 중인 데이터가 있어 문제지를 삭제할 수 없습니다."),
 
+    // Question
+    QUESTION_NOT_FOUND(HttpStatus.NOT_FOUND, "문항 정보를 찾을 수 없습니다."),
+    QUESTION_ALREADY_EXISTS(HttpStatus.CONFLICT, "같은 페이지에 동일한 번호의 문항이 이미 존재합니다."),
+
     // GradingRecord
     GRADING_RECORD_NOT_FOUND(HttpStatus.NOT_FOUND, "채점 기록을 찾을 수 없습니다."),
     NOT_GRADING_RECORD_OWNER(HttpStatus.FORBIDDEN, "해당 채점 기록의 학생이 아닙니다."),
